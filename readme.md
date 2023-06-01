@@ -3,7 +3,6 @@
 This is a code translator tool that uses OpenAI's GPT-4 model to translate code from Python to R or from R to Python. It also generates an explanation of the translated code, focusing on how to use it.
 
 ## Table of Contents
-
 - [Requirements](#requirements)
 - [Setting up Open AI Developer Account and API Key](#Setting_Up_OpenAI_Developer_Account_and_API_Key)
 - [Usage](#usage)
@@ -11,7 +10,6 @@ This is a code translator tool that uses OpenAI's GPT-4 model to translate code 
   - [translate_code](#translate_code)
   - [explain_code](#explain_code)
 -[Disclaimer](#disclaimer)
-
 ## Requirements
 
 - Python 3.6 or later
