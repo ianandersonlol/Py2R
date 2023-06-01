@@ -47,7 +47,7 @@ def explain_code(code):
         explanation = response['choices'][0]['message']['content'].strip()
         print(explanation)
     except Exception as e:
-        print(f"Failed to translate code: {e}")
+        print(f"Failed to explain code: {e}")
         sys.exit(1)
 # Check that a filename has been provided as a command line argument
 if len(sys.argv) < 2:
