@@ -9,7 +9,7 @@ This is a code translator tool that uses OpenAI's GPT-4 model to translate code 
 - [Functions](#functions)
   - [translate_code](#translate_code)
   - [explain_code](#explain_code)
--[Disclaimer](#disclaimer)
+- [Disclaimer](#disclaimer)
 ## Requirements
 
 - Python 3.6 or later
