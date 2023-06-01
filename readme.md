@@ -14,6 +14,8 @@ This is a code translator tool that uses OpenAI's GPT-4 model to translate code 
 
 - Python 3.6 or later
 - OpenAI Python package: `pip install openai`
+- OpenAI Developer Account.
+- Replace YOURAPIKEY with your API key.
 
 ## Setting Up OpenAI Developer Account and API Key
 
