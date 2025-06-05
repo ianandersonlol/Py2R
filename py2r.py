@@ -3,19 +3,22 @@ import sys
 import os
 from pathlib import Path
 
-OPENAI_API_KEY = "YOURAPIKEY"
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+if not OPENAI_API_KEY:
+    print("Error: OPENAI_API_KEY environment variable is not set.")
+    print("Please set it with: export OPENAI_API_KEY=your_api_key_here")
+    sys.exit(1)
 openai.api_key = OPENAI_API_KEY
 
 def translate_code(code, source_language, target_language):
     try:
         print("Generating new code, please wait...")
         response = openai.ChatCompletion.create(
-            model="gpt-4",
+            model="gpt-4.1",
             messages=[
                 {"role": "system", "content": f"You are a helpful assistant that translates {source_language} code to {target_language} code."},
                 {"role": "user", "content": code},
             ],
-            max_tokens=4096,
             temperature=0.7,
             top_p=1,
             frequency_penalty=0,
@@ -32,12 +35,11 @@ def explain_code(code):
     try:
         print("Generating explanation, please wait...")
         response = openai.ChatCompletion.create(
-            model="gpt-4",
+            model="gpt-4o",
             messages=[
                 {"role": "system", "content": "Your name is BinkyBonky and You are a knowledgeable AI trained to explain code to people."},
                 {"role": "user", "content": f"Please generate an explanation for the following file with a focus on how to use it. This should be in plain language and not in markdown as your response will be printed to the terminal:\n{code}"},
             ],
-            max_tokens=4096,
             temperature=0.7,
             top_p=1,
             frequency_penalty=0,
@@ -67,10 +69,10 @@ except Exception as e:
 
 if extension == '.py':
     new_code = translate_code(code, "Python", "R")
-    new_filename = f"{basename}_rewritten.R"
+    new_filename = f"{basename}_translated.R"
 elif extension == '.r':
     new_code = translate_code(code, "R", "Python")
-    new_filename = f"{basename}_rewritten.py"
+    new_filename = f"{basename}_translated.py"
 else:
     print("Unsupported file extension. Please provide a Python or R script.")
     sys.exit(1)
