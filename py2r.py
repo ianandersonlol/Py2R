@@ -1,4 +1,4 @@
-import openai
+from openai import OpenAI
 import sys
 import os
 from pathlib import Path
@@ -8,12 +8,13 @@ if not OPENAI_API_KEY:
     print("Error: OPENAI_API_KEY environment variable is not set.")
     print("Please set it with: export OPENAI_API_KEY=your_api_key_here")
     sys.exit(1)
-openai.api_key = OPENAI_API_KEY
+
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 def translate_code(code, source_language, target_language):
     try:
         print("Generating new code, please wait...")
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-4.1",
             messages=[
                 {"role": "system", "content": f"You are a helpful assistant that translates {source_language} code to {target_language} code."},
@@ -24,7 +25,7 @@ def translate_code(code, source_language, target_language):
             frequency_penalty=0,
             presence_penalty=0,
         )
-        translated_code = response['choices'][0]['message']['content'].strip()
+        translated_code = response.choices[0].message.content.strip()
         translated_code = translated_code.replace("```python", "").replace("```R", "").replace("```", "")
         return translated_code.strip()
     except Exception as e:
@@ -34,7 +35,7 @@ def translate_code(code, source_language, target_language):
 def explain_code(code):
     try:
         print("Generating explanation, please wait...")
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-4o",
             messages=[
                 {"role": "system", "content": "Your name is BinkyBonky and You are a knowledgeable AI trained to explain code to people."},
@@ -46,7 +47,7 @@ def explain_code(code):
             presence_penalty=0,
         )
 
-        explanation = response['choices'][0]['message']['content'].strip()
+        explanation = response.choices[0].message.content.strip()
         print(explanation)
     except Exception as e:
         print(f"Failed to explain code: {e}")
