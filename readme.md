@@ -4,75 +4,156 @@ This is a code translator tool that uses OpenAI's GPT-4 model to translate code 
 
 ## Table of Contents
 - [Requirements](#requirements)
-- [Setting up Open AI Developer Account and API Key](#Setting_Up_OpenAI_Developer_Account_and_API_Key)
+- [Setting up OpenAI Developer Account and API Key](#setting-up-openai-developer-account-and-api-key)
+- [Installation](#installation)
 - [Usage](#usage)
+- [Command Line Options](#command-line-options)
+- [Examples](#examples)
 - [Functions](#functions)
-  - [translate_code](#translate_code)
-  - [explain_code](#explain_code)
+- [Changelog](#changelog)
 - [Disclaimer](#disclaimer)
+
 ## Requirements
 
 - Python 3.6 or later
 - OpenAI Python package: `pip install openai`
-- OpenAI Developer Account.
-- Replace YOURAPIKEY with your API key.
+- OpenAI Developer Account and API key
 
 ## Setting Up OpenAI Developer Account and API Key
 
 1. Visit the OpenAI website at [https://www.openai.com/](https://www.openai.com/).
 2. Click on the "Sign Up" button and create an account.
 3. After verifying your email address and logging in, navigate to the API section.
-4. In the API section, you will find your API key. Copy this key and keep it safe; you'll need it for the next step.
+4. In the API section, you will find your API key. Copy this key and keep it safe.
+5. Set your API key as an environment variable:
+   ```bash
+   export OPENAI_API_KEY=your_api_key_here
+   ```
+
+## Installation
+
+1. Clone or download this repository
+2. Install the required dependencies:
+   ```bash
+   pip install openai
+   ```
+3. Set your OpenAI API key as an environment variable (see above)
 
 ## Usage
 
-To use the code translator, you need to provide a script file as a command line argument. The script file should be either a Python script (`.py` extension) or an R script (`.r` extension). The translated code will be saved in a new file with the same name as the input file but with the extension changed to the target language. For example, if you provide a Python script as input, the translated R script will have the same name with the `_rewritten.R` suffix, and vice versa for R scripts.
+The script accepts a Python (.py) or R (.r/.R) file and translates it to the opposite language.
 
-Run the script with the following command:
-
+Basic usage:
 ```bash
-python py2r.py <filename>
+python py2r.py <input_file>
 ```
 
-Replace `<filename>` with the path to your input script file.
+## Command Line Options
+
+- `filename` - Required. Input file to translate (.py or .r/.R)
+- `-o, --output` - Optional. Specify output filename (default: input_translated.ext)
+- `--no-explain` - Optional. Skip the code explanation step
+- `-v, --verbose` - Optional. Enable verbose output with debug information
+- `-q, --quiet` - Optional. Suppress all output except errors
+- `-h, --help` - Show help message and exit
+
+## Examples
+
+### Basic translation
+```bash
+# Translate Python to R
+python py2r.py my_script.py
+
+# Translate R to Python  
+python py2r.py my_script.r
+```
+
+### Custom output filename
+```bash
+python py2r.py script.py -o converted_script.R
+```
+
+### Skip explanation
+```bash
+python py2r.py script.py --no-explain
+```
+
+### Verbose mode
+```bash
+python py2r.py script.py -v
+```
+
+### Quiet mode (errors only)
+```bash
+python py2r.py script.py -q
+```
+
+### Combined options
+```bash
+python py2r.py script.py -o new_script.R --no-explain -v
+```
 
 ## Functions
 
-### translate_code
+### validate_api_key()
+Validates that the OPENAI_API_KEY environment variable is set.
 
-```python
-def translate_code(code, source_language, target_language)
-```
-
-Translates the code from the source language to the target language using OpenAI's GPT-4 model.
+### translate_code(client, code, source_language, target_language)
+Translates code from source language to target language using OpenAI's GPT-4.1 model.
 
 **Arguments:**
-
-- `code`: The code to be translated as a string.
-- `source_language`: The source programming language as a string. It should be either "Python" or "R".
-- `target_language`: The target programming language as a string. It should be either "Python" or "R".
+- `client`: OpenAI client instance
+- `code`: The code to be translated as a string
+- `source_language`: Source programming language ("Python" or "R")
+- `target_language`: Target programming language ("Python" or "R")
 
 **Returns:**
+- String containing the translated code
 
-- A string containing the translated code.
-
-### explain_code
-
-```python
-def explain_code(code)
-```
-
-Generates an explanation of the code with a focus on how to use it using OpenAI's GPT-4 model.
+### explain_code(client, code)
+Generates an explanation of the translated code using OpenAI's GPT-4o model.
 
 **Arguments:**
-
-- `code`: The code to be explained as a string.
+- `client`: OpenAI client instance
+- `code`: The code to be explained as a string
 
 **Returns:**
-
 - None. The explanation is printed to the console.
 
+### determine_languages_and_output(filename, output_filename=None)
+Determines source/target languages and output filename based on input file extension.
+
+### read_input_file(filename)
+Reads and returns contents of the input file with proper error handling.
+
+### write_output_file(filename, content)
+Writes translated code to the output file with proper error handling.
+
+### setup_logging(verbose=False, quiet=False)
+Configures logging based on verbosity settings.
+
+## Changelog
+
+### Latest Version
+- **Security**: Now uses environment variables for API key instead of hardcoding
+- **Modernization**: Updated to newer OpenAI client library with proper error handling
+- **Efficiency**: Removed redundant file operations for better performance
+- **Robustness**: Added case-insensitive file extension handling (.r, .R, .py)
+- **Improved**: Better markdown removal using robust regex patterns
+- **CLI**: Complete rewrite with argparse for professional command-line interface
+- **Features**: Added --no-explain option to skip code explanation
+- **Logging**: Implemented proper logging system with verbose (-v) and quiet (-q) modes
+- **Customization**: Added custom output filename support with -o/--output option
+- **Error Handling**: Comprehensive error messages with helpful guidance
+- **File Support**: Added UTF-8 encoding support for better international character handling
+- **Code Quality**: Modular function structure for better maintainability
+
+### Previous Version
+- Basic translation between Python and R
+- Simple command-line interface
+- Code explanation feature
+- Hardcoded API key (security issue)
 
 ## Disclaimer
 
-The OpenAI GPT4 model is a powerful tool but it is not infallible. It may not always generate a perfect explanation, particularly for complex or poorly written code. Always review the generated explanations and use your own judgement.
+The OpenAI GPT-4 model is a powerful tool but it is not infallible. It may not always generate perfect translations or explanations, particularly for complex or poorly written code. Always review the generated code and explanations, and use your own judgment. Test translated code thoroughly before using in production environments.
