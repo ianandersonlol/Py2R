@@ -1,6 +1,7 @@
 from openai import OpenAI
 import sys
 import os
+import re
 from pathlib import Path
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -26,7 +27,9 @@ def translate_code(code, source_language, target_language):
             presence_penalty=0,
         )
         translated_code = response.choices[0].message.content.strip()
-        translated_code = translated_code.replace("```python", "").replace("```R", "").replace("```", "")
+        # Remove code blocks with more robust regex
+        translated_code = re.sub(r'```\w*\n?', '', translated_code)
+        translated_code = re.sub(r'```', '', translated_code)
         return translated_code.strip()
     except Exception as e:
         print(f"Failed to translate code: {e}")
