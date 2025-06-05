@@ -59,7 +59,7 @@ if len(sys.argv) < 2:
 
 filename = sys.argv[1]
 basename = os.path.splitext(filename)[0]
-extension = os.path.splitext(filename)[1]
+extension = os.path.splitext(filename)[1].lower()
 
 try:
     with open(filename, 'r') as file:
