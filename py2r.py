@@ -85,12 +85,5 @@ except Exception as e:
     print(f"Failed to write new file: {e}")
     sys.exit(1)
 
-try:
-    with open(new_filename, 'r') as file:
-        new_code = file.read()
-except Exception as e:
-    print(f"Failed to read new file: {e}")
-    sys.exit(1)
-
 explain_code(new_code)
 
