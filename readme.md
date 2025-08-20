@@ -1,6 +1,6 @@
 # Py2R Documentation
 
-This is a code translator tool that uses OpenAI's GPT-4 model to translate code from Python to R or from R to Python. It also generates an explanation of the translated code, focusing on how to use it.
+This is a code translator tool that uses OpenAI's GPT-5 model to translate code from Python to R or from R to Python. It also generates an explanation of the translated code, focusing on how to use it.
 
 ## Table of Contents
 - [Requirements](#requirements)
@@ -99,7 +99,7 @@ python py2r.py script.py -o new_script.R --no-explain -v
 Validates that the OPENAI_API_KEY environment variable is set.
 
 ### translate_code(client, code, source_language, target_language)
-Translates code from source language to target language using OpenAI's GPT-4.1 model.
+Translates code from source language to target language using OpenAI's GPT-5 model.
 
 **Arguments:**
 - `client`: OpenAI client instance
@@ -111,7 +111,7 @@ Translates code from source language to target language using OpenAI's GPT-4.1 m
 - String containing the translated code
 
 ### explain_code(client, code)
-Generates an explanation of the translated code using OpenAI's GPT-4o model.
+Generates an explanation of the translated code using OpenAI's GPT-5 model.
 
 **Arguments:**
 - `client`: OpenAI client instance
@@ -156,4 +156,4 @@ Configures logging based on verbosity settings.
 
 ## Disclaimer
 
-The OpenAI GPT-4 model is a powerful tool but it is not infallible. It may not always generate perfect translations or explanations, particularly for complex or poorly written code. Always review the generated code and explanations, and use your own judgment. Test translated code thoroughly before using in production environments.
+The OpenAI GPT-5 model is a powerful tool but it is not infallible. It may not always generate perfect translations or explanations, particularly for complex or poorly written code. Always review the generated code and explanations, and use your own judgment. Test translated code thoroughly before using in production environments.
