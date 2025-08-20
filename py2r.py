@@ -35,10 +35,9 @@ def translate_code(client, code, source_language, target_language):
     try:
         logging.info("Generating translated code, please wait...")
         response = client.chat.completions.create(
-            model="gpt-4.1",
+            model="gpt-5",
             messages=[
-                {"role": "system", "content": f"You are a helpful assistant that translates {source_language} code to {target_language} code."},
-                {"role": "user", "content": code},
+                {"role": "system", "content": f"You are an expert code translator. Translate the following {source_language} code to {target_language}. Respond with only the translated code, wrapped in a single markdown code block (e.g., ```language\ncode\n```). Do not include any other text or explanations."},                {"role": "user", "content": code},
             ],
             temperature=0.7,
             top_p=1,
@@ -60,7 +59,7 @@ def explain_code(client, code):
     try:
         logging.info("Generating code explanation, please wait...")
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-5",
             messages=[
                 {"role": "system", "content": "Your name is BinkyBonky and You are a knowledgeable AI trained to explain code to people."},
                 {"role": "user", "content": f"Please generate an explanation for the following file with a focus on how to use it. This should be in plain language and not in markdown as your response will be printed to the terminal:\n{code}"},
