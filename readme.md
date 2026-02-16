@@ -1,3 +1,5 @@
+for what its worth I originally made this when open AI's API first came out and chatgpt and other out the box AI tools sucked for this... nowadays id say just throw it into Claude or ChatGPT and let it do it. 
+
 # Py2R Documentation
 
 This is a code translator tool that uses OpenAI's GPT-5 model to translate code from Python to R or from R to Python. It also generates an explanation of the translated code, focusing on how to use it.
